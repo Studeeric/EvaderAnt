@@ -15,6 +15,11 @@ func process(_delta: float) -> void:
 	pass
 
 func physics_process(_delta: float) -> void:
+	if Input.is_action_just_released("jump"):
+		stateMachine.actor.velocity.y *= 0.5
+		if stateMachine.actor.velocity.y <= 0:
+			stateMachine.change_state(fallState)
+
 	var direction: float = Input.get_axis("move_left", "move_right")
 	stateMachine.actor.velocity.y += stateMachine.gravity
 	stateMachine.actor.velocity.x = direction * stateMachine.moveSpeed
