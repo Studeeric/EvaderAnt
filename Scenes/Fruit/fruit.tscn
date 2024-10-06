@@ -1,0 +1,24 @@
+[gd_scene load_steps=5 format=3 uid="uid://c1nntiruk75wq"]
+
+[ext_resource type="Texture2D" uid="uid://bupkwd7q4aah8" path="res://Assets/Sprites/Strawberry.png" id="1_o0frd"]
+[ext_resource type="Script" path="res://Scenes/Fruit/fruit.gd" id="1_spwp6"]
+[ext_resource type="AudioStream" uid="uid://bsm8gejdhesno" path="res://Assets/SFX/Fruit.wav" id="3_rd4sa"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_mdyh0"]
+radius = 12.0416
+
+[node name="Fruit" type="Area2D"]
+collision_layer = 8
+script = ExtResource("1_spwp6")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_o0frd")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("CircleShape2D_mdyh0")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_rd4sa")
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
+[connection signal="finished" from="AudioStreamPlayer2D" to="." method="_on_audio_stream_player_2d_finished"]

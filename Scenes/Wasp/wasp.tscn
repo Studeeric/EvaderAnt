@@ -1,0 +1,41 @@
+[gd_scene load_steps=5 format=3 uid="uid://bo353gmseynmw"]
+
+[ext_resource type="Script" path="res://Scenes/Wasp/wasp.gd" id="1_kmcjc"]
+[ext_resource type="Texture2D" uid="uid://0l3so28nr3ib" path="res://Assets/Sprites/Wasp.png" id="2_60b2b"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_lhn6o"]
+radius = 6.0
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_iy8m1"]
+radius = 7.0
+
+[node name="Wasp" type="CharacterBody2D"]
+process_mode = 1
+collision_layer = 4
+collision_mask = 0
+script = ExtResource("1_kmcjc")
+speed = 50.0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, 0)
+shape = SubResource("CircleShape2D_lhn6o")
+
+[node name="WaspArea" type="Area2D" parent="."]
+collision_layer = 4
+
+[node name="Sprite2D" type="Sprite2D" parent="WaspArea"]
+texture = ExtResource("2_60b2b")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="WaspArea"]
+position = Vector2(1, 0)
+shape = SubResource("CircleShape2D_iy8m1")
+
+[node name="VisibleOnScreenNotifier2D" type="VisibleOnScreenNotifier2D" parent="."]
+
+[node name="Despawner" type="Timer" parent="."]
+wait_time = 5.0
+one_shot = true
+
+[connection signal="screen_entered" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_entered"]
+[connection signal="screen_exited" from="VisibleOnScreenNotifier2D" to="." method="_on_visible_on_screen_notifier_2d_screen_exited"]
+[connection signal="timeout" from="Despawner" to="." method="_on_despawner_timeout"]

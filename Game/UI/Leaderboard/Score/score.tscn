@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://c57akxc20ojg2"]
+
+[ext_resource type="Script" path="res://Game/UI/Leaderboard/Score/score.gd" id="1_5wlpg"]
+
+[node name="Score" type="HBoxContainer"]
+size_flags_horizontal = 3
+script = ExtResource("1_5wlpg")
+
+[node name="NameLabel" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 2
+text = "aaa"
+vertical_alignment = 1
+
+[node name="ScoreLabel" type="Label" parent="."]
+layout_mode = 2
+size_flags_horizontal = 8
+text = "000000000000"

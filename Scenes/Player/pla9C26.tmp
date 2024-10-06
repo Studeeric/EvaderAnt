@@ -1,0 +1,171 @@
+[gd_scene load_steps=22 format=3 uid="uid://bpwcama5ccdob"]
+
+[ext_resource type="Texture2D" uid="uid://cdtaemt8q3m3e" path="res://Assets/Sprites/Player.png" id="1_gvbvs"]
+[ext_resource type="PackedScene" uid="uid://b77m7l4vxsdj" path="res://Scenes/Player/StateMachine/state_machine.tscn" id="2_cs0sa"]
+[ext_resource type="PackedScene" uid="uid://b2kakwjpsac2s" path="res://Scenes/Player/StateMachine/Idle/idle_state.tscn" id="3_s0nl2"]
+[ext_resource type="PackedScene" uid="uid://c0hjf742jwhu8" path="res://Scenes/Player/StateMachine/Move/move_state.tscn" id="4_m7v7y"]
+[ext_resource type="PackedScene" uid="uid://deq5xii5301mu" path="res://Scenes/Player/StateMachine/Jump/jump_state.tscn" id="5_e1ktf"]
+[ext_resource type="PackedScene" uid="uid://clxaau3m7ijg8" path="res://Scenes/Player/StateMachine/Fall/fall_state.tscn" id="6_v2qye"]
+[ext_resource type="Script" path="res://Scenes/Player/StateMachine/Fall/fall_state.gd" id="7_rl61e"]
+[ext_resource type="PackedScene" uid="uid://co8jl3ewes7wy" path="res://Scenes/Player/hurtbox.tscn" id="8_orroi"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_y4s2y"]
+atlas = ExtResource("1_gvbvs")
+region = Rect2(0, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_18xa6"]
+atlas = ExtResource("1_gvbvs")
+region = Rect2(32, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vdlqg"]
+atlas = ExtResource("1_gvbvs")
+region = Rect2(48, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lga2s"]
+atlas = ExtResource("1_gvbvs")
+region = Rect2(8, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5otkb"]
+atlas = ExtResource("1_gvbvs")
+region = Rect2(32, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_px8u6"]
+atlas = ExtResource("1_gvbvs")
+region = Rect2(40, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vq4ih"]
+atlas = ExtResource("1_gvbvs")
+region = Rect2(0, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cy0u4"]
+atlas = ExtResource("1_gvbvs")
+region = Rect2(8, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ry1nn"]
+atlas = ExtResource("1_gvbvs")
+region = Rect2(8, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5wtf5"]
+atlas = ExtResource("1_gvbvs")
+region = Rect2(16, 0, 8, 8)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ruajg"]
+atlas = ExtResource("1_gvbvs")
+region = Rect2(24, 0, 8, 8)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tf3sk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_y4s2y")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_18xa6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vdlqg")
+}],
+"loop": false,
+"name": &"die",
+"speed": 2.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lga2s")
+}],
+"loop": true,
+"name": &"fall",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5otkb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_px8u6")
+}],
+"loop": false,
+"name": &"hurt",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vq4ih")
+}],
+"loop": true,
+"name": &"idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cy0u4")
+}],
+"loop": true,
+"name": &"jump",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ry1nn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5wtf5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ruajg")
+}],
+"loop": true,
+"name": &"move",
+"speed": 9.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_gr5aw"]
+size = Vector2(8, 8)
+
+[node name="Player" type="CharacterBody2D" groups=["player"]]
+process_mode = 1
+z_index = 1
+collision_mask = 2
+
+[node name="Animator" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_tf3sk")
+animation = &"fall"
+autoplay = "idle"
+
+[node name="Collider" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_gr5aw")
+
+[node name="StateMachine" parent="." node_paths=PackedStringArray("animator", "actor", "initialState") instance=ExtResource("2_cs0sa")]
+animator = NodePath("../Animator")
+actor = NodePath("..")
+initialState = NodePath("IdleState")
+gravity = 9.8
+moveSpeed = 100.0
+
+[node name="IdleState" parent="StateMachine" node_paths=PackedStringArray("moveState", "jumpState", "fallState") instance=ExtResource("3_s0nl2")]
+moveState = NodePath("../MoveState")
+jumpState = NodePath("../JumpState")
+fallState = NodePath("../FallState")
+animationName = &"idle"
+
+[node name="MoveState" parent="StateMachine" node_paths=PackedStringArray("idleState", "jumpState", "fallState") instance=ExtResource("4_m7v7y")]
+idleState = NodePath("../IdleState")
+jumpState = NodePath("../JumpState")
+fallState = NodePath("../FallState")
+animationName = &"move"
+
+[node name="JumpState" parent="StateMachine" node_paths=PackedStringArray("fallState") instance=ExtResource("5_e1ktf")]
+fallState = NodePath("../FallState")
+jump_force = 200.0
+animationName = &"jump"
+
+[node name="FallState" parent="StateMachine" node_paths=PackedStringArray("idleState", "moveState") instance=ExtResource("6_v2qye")]
+script = ExtResource("7_rl61e")
+idleState = NodePath("../IdleState")
+moveState = NodePath("../MoveState")
+animationName = &"fall"
+
+[node name="Hurtbox" parent="." instance=ExtResource("8_orroi")]
+
+[connection signal="animation_finished" from="Animator" to="StateMachine" method="_on_animator_animation_finished"]
+[connection signal="body_entered" from="Hurtbox" to="Hurtbox" method="_on_body_entered"]

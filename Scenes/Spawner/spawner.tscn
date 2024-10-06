@@ -1,0 +1,53 @@
+[gd_scene load_steps=4 format=3 uid="uid://bismo05g4jpk5"]
+
+[ext_resource type="Script" path="res://Scenes/Spawner/Spawner.gd" id="1_hyoce"]
+
+[sub_resource type="Curve2D" id="Curve2D_u54v8"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -165, 82, 0, 0, 0, 0, -164, -101, 0, 0, 0, 0, 167, -98, 0, 0, 0, 0, 166, 79)
+}
+point_count = 4
+
+[sub_resource type="Curve2D" id="Curve2D_dv3yj"]
+_data = {
+"points": PackedVector2Array(0, 0, 0, 0, -193, 40, 0, 0, 0, 0, -201, 147, 0, 0, 0, 0, 201, 138, 0, 0, 0, 0, 198, 43)
+}
+point_count = 4
+
+[node name="Spawner" type="Node2D"]
+script = ExtResource("1_hyoce")
+
+[node name="WaspTrack" type="Path2D" parent="."]
+curve = SubResource("Curve2D_u54v8")
+
+[node name="WaspSpawner" type="PathFollow2D" parent="WaspTrack"]
+position = Vector2(166, 79)
+rotation = 1.57645
+progress = 706.082
+
+[node name="WaspPosition" type="Marker2D" parent="WaspTrack/WaspSpawner"]
+
+[node name="WaspTimer" type="Timer" parent="."]
+autostart = true
+
+[node name="StrawberryTimer" type="Timer" parent="."]
+wait_time = 2.5
+autostart = true
+
+[node name="StrawberryTrack" type="Path2D" parent="."]
+curve = SubResource("Curve2D_dv3yj")
+
+[node name="StrawberrySpawner" type="PathFollow2D" parent="StrawberryTrack"]
+position = Vector2(-199.651, 147.308)
+rotation = 1.04613
+progress = 108.921
+
+[node name="StrawberryPosition" type="Marker2D" parent="StrawberryTrack/StrawberrySpawner"]
+
+[node name="RolyPolyTimer" type="Timer" parent="."]
+wait_time = 2.5
+autostart = true
+
+[connection signal="timeout" from="WaspTimer" to="." method="_on_wasp_timer_timeout"]
+[connection signal="timeout" from="StrawberryTimer" to="." method="_on_strawberry_timer_timeout"]
+[connection signal="timeout" from="RolyPolyTimer" to="." method="_on_roly_poly_timer_timeout"]

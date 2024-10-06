@@ -1,0 +1,16 @@
+extends Node
+
+@warning_ignore("unused_signal")
+signal set_timer(newTime: float)
+@warning_ignore("unused_signal")
+signal set_score(newScore: int)
+@warning_ignore("unused_signal")
+signal take_damage()
+@warning_ignore("unused_signal")
+signal immunity_over()
+@warning_ignore("unused_signal")
+signal player_died()
+@warning_ignore("unused_signal")
+signal score_submitted(score: Score)
+@warning_ignore("unused_signal")
+signal points_earned(points: int)

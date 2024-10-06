@@ -1,0 +1,25 @@
+[gd_scene load_steps=3 format=3 uid="uid://deeo2vemjwy1w"]
+
+[ext_resource type="Texture2D" uid="uid://4wjqdt6c2oo6" path="res://Assets/Sprites/HeartFull.png" id="1_rlqo1"]
+[ext_resource type="Texture2D" uid="uid://mycsnic1fupd" path="res://Assets/Sprites/HeartEmpty.png" id="2_psrcm"]
+
+[node name="LivesDisplay" type="HBoxContainer"]
+offset_left = 8.0
+offset_top = 8.0
+offset_right = 64.0
+offset_bottom = 24.0
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("1_rlqo1")
+expand_mode = 2
+
+[node name="TextureRect2" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("1_rlqo1")
+expand_mode = 2
+
+[node name="TextureRect3" type="TextureRect" parent="."]
+layout_mode = 2
+texture = ExtResource("2_psrcm")
+expand_mode = 2

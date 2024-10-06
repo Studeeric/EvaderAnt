@@ -1,0 +1,131 @@
+[gd_scene load_steps=9 format=3 uid="uid://c4vgivqww2v3p"]
+
+[ext_resource type="Theme" uid="uid://bylbyy3q0yish" path="res://Assets/Theme.tres" id="1_4jxkr"]
+[ext_resource type="Script" path="res://Game/UI/Leaderboard/leaderboard.gd" id="2_ejoa4"]
+[ext_resource type="Resource" uid="uid://csuba1praigiw" path="res://Resources/Highscores.tres" id="3_rjqux"]
+[ext_resource type="AudioStream" uid="uid://c180bq2nldbwv" path="res://Assets/SFX/LeaderboardClick.wav" id="4_spk5p"]
+[ext_resource type="PackedScene" uid="uid://d2ccag3uk17k7" path="res://Shaders/crt.tscn" id="5_mobcb"]
+
+[sub_resource type="Animation" id="Animation_5ibfb"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Button:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Button/AudioStreamPlayer2D:playing")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_6bksh"]
+resource_name = "main_pressed"
+length = 0.9
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Button:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Button/AudioStreamPlayer2D:playing")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_p6u5i"]
+_data = {
+"RESET": SubResource("Animation_5ibfb"),
+"main_pressed": SubResource("Animation_6bksh")
+}
+
+[node name="Control" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_4jxkr")
+
+[node name="Leaderboard" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -75.0
+offset_top = -70.0
+offset_right = 75.0
+offset_bottom = 30.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_4jxkr")
+script = ExtResource("2_ejoa4")
+highscores = ExtResource("3_rjqux")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Leaderboard"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Leaderboard/VBoxContainer"]
+layout_mode = 2
+text = "LEADERBOARD"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Button" type="Button" parent="."]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -48.0
+offset_top = -55.0
+offset_right = 48.0
+offset_bottom = -24.0
+grow_horizontal = 2
+grow_vertical = 0
+text = "Main Menu"
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="Button"]
+stream = ExtResource("4_spk5p")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_p6u5i")
+}
+
+[node name="CRT" parent="." instance=ExtResource("5_mobcb")]
+
+[connection signal="pressed" from="Button" to="Leaderboard" method="_on_button_pressed"]
+[connection signal="animation_finished" from="AnimationPlayer" to="Leaderboard" method="_on_animation_player_animation_finished"]

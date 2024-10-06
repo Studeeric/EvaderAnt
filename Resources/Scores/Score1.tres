@@ -1,0 +1,8 @@
+[gd_resource type="Resource" script_class="Score" load_steps=2 format=3 uid="uid://bvxskd67u1eis"]
+
+[ext_resource type="Script" path="res://Resources/Score.gd" id="1_815hd"]
+
+[resource]
+script = ExtResource("1_815hd")
+player_name = "aaa"
+player_score = 500

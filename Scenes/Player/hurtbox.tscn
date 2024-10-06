@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://co8jl3ewes7wy"]
+
+[ext_resource type="Script" path="res://Scenes/Player/hurtbox.gd" id="1_ye1gq"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_cxwae"]
+size = Vector2(10, 10)
+
+[node name="Hurtbox" type="Area2D"]
+collision_layer = 0
+collision_mask = 4
+script = ExtResource("1_ye1gq")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_cxwae")
+
+[node name="HurtCooldown" type="Timer" parent="."]
+wait_time = 1.5
+one_shot = true
+
+[node name="HurtAudio" type="AudioStreamPlayer2D" parent="."]
+process_mode = 3
+
+[connection signal="timeout" from="HurtCooldown" to="." method="_on_hurt_cooldown_timeout"]

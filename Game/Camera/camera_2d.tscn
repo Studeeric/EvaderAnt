@@ -1,0 +1,41 @@
+[gd_scene load_steps=5 format=3 uid="uid://bsm0hrlwqv0at"]
+
+[ext_resource type="PackedScene" uid="uid://bismo05g4jpk5" path="res://Scenes/Spawner/spawner.tscn" id="1_fi1c7"]
+[ext_resource type="Script" path="res://Game/Camera/despawner.gd" id="2_o4tm3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_atrvx"]
+size = Vector2(23, 192)
+
+[sub_resource type="WorldBoundaryShape2D" id="WorldBoundaryShape2D_qw8qo"]
+
+[node name="Camera2D" type="Camera2D"]
+limit_top = 0
+
+[node name="RightCamArea" type="Area2D" parent="."]
+position = Vector2(148, 0)
+collision_layer = 16
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RightCamArea"]
+shape = SubResource("RectangleShape2D_atrvx")
+
+[node name="LeftCamArea" type="Area2D" parent="."]
+position = Vector2(-148, 0)
+collision_layer = 16
+collision_mask = 0
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="LeftCamArea"]
+shape = SubResource("RectangleShape2D_atrvx")
+
+[node name="Spawner" parent="." instance=ExtResource("1_fi1c7")]
+
+[node name="Despawner" type="Area2D" parent="."]
+position = Vector2(0, 256)
+collision_layer = 0
+collision_mask = 44
+script = ExtResource("2_o4tm3")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Despawner"]
+shape = SubResource("WorldBoundaryShape2D_qw8qo")
+
+[connection signal="body_entered" from="Despawner" to="Despawner" method="_on_body_entered"]

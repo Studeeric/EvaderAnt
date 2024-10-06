@@ -1,0 +1,85 @@
+[gd_scene load_steps=8 format=3 uid="uid://cpl215fs8smrg"]
+
+[ext_resource type="Script" path="res://Scenes/Foot/foot.gd" id="1_ddo2p"]
+[ext_resource type="Texture2D" uid="uid://cdsygjx2hdpiv" path="res://Assets/Sprites/GiantFoot.png" id="1_v47i5"]
+[ext_resource type="AudioStream" uid="uid://ba3tbyf2vd2xm" path="res://Assets/SFX/FootStomp.wav" id="3_abdqx"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ftkii"]
+size = Vector2(78, 180)
+
+[sub_resource type="Animation" id="Animation_obiru"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_0n3ex"]
+resource_name = "rumble"
+length = 0.1667
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.0333333, 0.0666667, 0.1, 0.133333, 0.166667),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 0), Vector2(-2, -4), Vector2(-3, -1), Vector2(2, -4), Vector2(4, -2)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_jmkvk"]
+_data = {
+"RESET": SubResource("Animation_obiru"),
+"rumble": SubResource("Animation_0n3ex")
+}
+
+[node name="Foot" type="CharacterBody2D" groups=["enemy"]]
+process_mode = 1
+collision_layer = 4
+collision_mask = 2
+script = ExtResource("1_ddo2p")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_v47i5")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, 0)
+shape = SubResource("RectangleShape2D_ftkii")
+
+[node name="FallTimer" type="Timer" parent="."]
+wait_time = 0.5
+one_shot = true
+
+[node name="TrackTimer" type="Timer" parent="."]
+wait_time = 2.5
+one_shot = true
+autostart = true
+
+[node name="GroundTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_jmkvk")
+}
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_abdqx")
+volume_db = 5.0
+pitch_scale = 0.66
+
+[connection signal="timeout" from="FallTimer" to="." method="_on_fall_timer_timeout"]
+[connection signal="timeout" from="TrackTimer" to="." method="_on_track_timer_timeout"]
+[connection signal="timeout" from="GroundTimer" to="." method="_on_ground_timer_timeout"]

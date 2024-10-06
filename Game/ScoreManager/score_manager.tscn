@@ -1,0 +1,14 @@
+[gd_scene load_steps=3 format=3 uid="uid://fdo5n5air0ss"]
+
+[ext_resource type="Script" path="res://Game/ScoreManager/score_manager.gd" id="1_wsrjx"]
+[ext_resource type="Resource" uid="uid://csuba1praigiw" path="res://Resources/Highscores.tres" id="2_x764u"]
+
+[node name="ScoreManager" type="Node"]
+process_mode = 1
+script = ExtResource("1_wsrjx")
+high_scores = ExtResource("2_x764u")
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
